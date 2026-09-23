@@ -1,0 +1,121 @@
+"use client";
+
+import * as React from "react";
+import Link from "next/link";
+import { registerAction } from "@/lib/actions/auth";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Card } from "@/components/ui/card";
+import { UserPlus, Loader2 } from "lucide-react";
+import { useToast } from "@/components/ui/toast";
+
+export default function RegisterPage() {
+  const [loading, setLoading] = React.useState(false);
+  const { error } = useToast();
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+
+    const formData = new FormData(e.currentTarget);
+    try {
+      const res = await registerAction(formData);
+      if (res?.error) {
+        error(res.error, "Gagal Daftar");
+        setLoading(false);
+      }
+    } catch {
+      // In Next.js, redirect() navigates
+    }
+  };
+
+  return (
+    <Card className="p-6 sm:p-8">
+      <div className="mb-6">
+        <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight">
+          Buat Akun Baru
+        </h2>
+        <p className="mt-1 text-xs text-zinc-400 font-medium">
+          Mulai catat target upsolving dan tingkatkan rating CP Anda.
+        </p>
+      </div>
+
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div>
+          <label className="block text-xs font-black uppercase tracking-wider text-zinc-300 font-mono mb-1.5">
+            Username
+          </label>
+          <Input
+            type="text"
+            name="username"
+            placeholder="tourist_fan"
+            required
+            minLength={3}
+            maxLength={50}
+            disabled={loading}
+          />
+        </div>
+
+        <div>
+          <label className="block text-xs font-black uppercase tracking-wider text-zinc-300 font-mono mb-1.5">
+            Email
+          </label>
+          <Input
+            type="email"
+            name="email"
+            placeholder="nama@domain.com"
+            required
+            autoComplete="email"
+            disabled={loading}
+          />
+        </div>
+
+        <div>
+          <label className="block text-xs font-black uppercase tracking-wider text-zinc-300 font-mono mb-1.5">
+            Password
+          </label>
+          <Input
+            type="password"
+            name="password"
+            placeholder="Minimal 6 karakter"
+            required
+            minLength={6}
+            autoComplete="new-password"
+            disabled={loading}
+          />
+        </div>
+
+        <div className="pt-2">
+          <Button
+            type="submit"
+            variant="primary"
+            disabled={loading}
+            className="w-full h-11 gap-2 text-sm uppercase tracking-wider"
+          >
+            {loading ? (
+              <>
+                <Loader2 className="h-4 w-4 animate-spin" />
+                <span>Membuat Akun...</span>
+              </>
+            ) : (
+              <>
+                <UserPlus className="h-4 w-4" />
+                <span>DAFTAR SEKARANG</span>
+              </>
+            )}
+          </Button>
+        </div>
+      </form>
+
+      <div className="mt-6 border-t-2 border-zinc-800 pt-4 text-center text-xs font-mono text-zinc-400">
+        Sudah memiliki akun?{" "}
+        <Link
+          href="/login"
+          className="font-bold text-[#FACC15] hover:underline"
+        >
+          Masuk di sini
+        </Link>
+      </div>
+    </Card>
+  );
+}
