@@ -86,7 +86,7 @@ export const HistoryRowActions: React.FC<HistoryRowActionsProps> = ({
         </button>
 
         {open && (
-          <div className="absolute right-0 top-full mt-2 w-52 rounded-xl border-[2.5px] border-white bg-surface p-1.5 shadow-[4px_4px_0px_0px_#FFFFFF] z-30 animate-in fade-in zoom-in-95 duration-100">
+          <div className="absolute right-0 bottom-full mb-2 w-52 rounded-xl border-[2.5px] border-white bg-surface p-1.5 shadow-[4px_4px_0px_0px_#FFFFFF] z-30 animate-in fade-in zoom-in-95 duration-100">
             <button
               type="button"
               onClick={handleReQueue}

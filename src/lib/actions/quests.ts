@@ -74,17 +74,22 @@ export async function markQuestSolvedAction(problemId: string) {
     return { error: "Tidak terotentikasi" };
   }
 
-  const { error } = await supabase
+  const { data, error } = await supabase
     .from("problems")
     .update({
       is_completed: true,
       completed_at: new Date().toISOString(),
     })
     .eq("id", problemId)
-    .eq("user_id", user.id);
+    .eq("user_id", user.id)
+    .select();
 
   if (error) {
     return { error: error.message };
+  }
+
+  if (!data || data.length === 0) {
+    return { error: "Gagal menandai selesai: data tidak ditemukan atau akses ditolak oleh RLS." };
   }
 
   revalidatePath("/queue");
@@ -102,14 +107,19 @@ export async function deleteQuestAction(problemId: string) {
     return { error: "Tidak terotentikasi" };
   }
 
-  const { error } = await supabase
+  const { data, error } = await supabase
     .from("problems")
     .delete()
     .eq("id", problemId)
-    .eq("user_id", user.id);
+    .eq("user_id", user.id)
+    .select();
 
   if (error) {
     return { error: error.message };
+  }
+
+  if (!data || data.length === 0) {
+    return { error: "Gagal menghapus: data tidak ditemukan atau akses ditolak oleh RLS." };
   }
 
   revalidatePath("/queue");
@@ -131,7 +141,7 @@ export async function reQueueQuestAction(problemId: string) {
     return { error: "Tidak terotentikasi" };
   }
 
-  const { error } = await supabase
+  const { data, error } = await supabase
     .from("problems")
     .update({
       is_completed: false,
@@ -139,10 +149,15 @@ export async function reQueueQuestAction(problemId: string) {
       created_at: new Date().toISOString(),
     })
     .eq("id", problemId)
-    .eq("user_id", user.id);
+    .eq("user_id", user.id)
+    .select();
 
   if (error) {
     return { error: error.message };
+  }
+
+  if (!data || data.length === 0) {
+    return { error: "Gagal mengembalikan quest: data tidak ditemukan atau akses ditolak oleh RLS." };
   }
 
   revalidatePath("/queue");
@@ -164,14 +179,19 @@ export async function bulkDeleteQuestsAction(problemIds: string[]) {
     return { error: "Tidak terotentikasi" };
   }
 
-  const { error } = await supabase
+  const { data, error } = await supabase
     .from("problems")
     .delete()
     .in("id", problemIds)
-    .eq("user_id", user.id);
+    .eq("user_id", user.id)
+    .select();
 
   if (error) {
     return { error: error.message };
+  }
+
+  if (!data || data.length === 0) {
+    return { error: "Gagal menghapus: tidak ada data yang terhapus. Kemungkinan akses ditolak oleh RLS." };
   }
 
   revalidatePath("/history");

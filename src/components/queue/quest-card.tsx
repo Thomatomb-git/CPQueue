@@ -157,7 +157,7 @@ export const QuestCard: React.FC<QuestCardProps> = ({
           </span>
         </label>
 
-        <span className="text-[10px] font-mono text-zinc-500">
+        <span suppressHydrationWarning className="text-[10px] font-mono text-zinc-500">
           {new Date(quest.created_at).toLocaleDateString("id-ID", {
             day: "numeric",
             month: "short",

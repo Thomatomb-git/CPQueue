@@ -73,12 +73,10 @@ export const QueueView: React.FC<QueueViewProps> = ({ initialQuests }) => {
 
   const handleQuestSolved = (id: string) => {
     setQuests((prev) => prev.filter((q) => q.id !== id));
-    router.refresh();
   };
 
   const handleQuestDeleted = (id: string) => {
     setQuests((prev) => prev.filter((q) => q.id !== id));
-    router.refresh();
   };
 
   const handleQuestAdded = () => {

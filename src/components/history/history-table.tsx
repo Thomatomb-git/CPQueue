@@ -13,22 +13,21 @@ export interface HistoryTableProps {
   initialQuests: Problem[];
 }
 
-function formatRelativeTime(dateString: string | null): string {
+function formatSolvedTime(dateString: string | null): string {
   if (!dateString) return "Baru saja";
   try {
     const date = new Date(dateString);
-    const now = new Date();
-    const diffMs = now.getTime() - date.getTime();
-    const diffMins = Math.floor(diffMs / 60000);
-    const diffHours = Math.floor(diffMins / 60);
-    const diffDays = Math.floor(diffHours / 24);
-
-    if (diffMins < 1) return "Baru saja";
-    if (diffMins < 60) return `Solved ${diffMins} mnt lalu`;
-    if (diffHours < 24) return `Solved ${diffHours} jam lalu`;
-    if (diffDays === 1) return "Solved kemarin";
-    if (diffDays < 7) return `Solved ${diffDays} hari lalu`;
-    return `Solved ${date.toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" })}`;
+    const time = date.toLocaleTimeString("id-ID", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    });
+    const day = date.toLocaleDateString("id-ID", {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+    });
+    return `Solved ${time}, ${day}`;
   } catch {
     return "Terselesaikan";
   }
@@ -119,7 +118,7 @@ export const HistoryTable: React.FC<HistoryTableProps> = ({ initialQuests }) => 
           </p>
         </div>
       ) : (
-        <div className="overflow-x-auto rounded-xl border-[2.5px] border-white bg-surface shadow-[4px_4px_0px_0px_#FFFFFF]">
+        <div className="overflow-visible rounded-xl border-[2.5px] border-white bg-surface shadow-[4px_4px_0px_0px_#FFFFFF]">
           <table className="w-full text-left text-sm text-white">
             <thead className="border-b-[2.5px] border-white bg-secondary/80 font-mono text-xs uppercase tracking-wider text-zinc-300">
               <tr>
@@ -137,8 +136,8 @@ export const HistoryTable: React.FC<HistoryTableProps> = ({ initialQuests }) => 
                 <th scope="col" className="px-4 py-3.5">
                   Judul Soal & Link
                 </th>
-                <th scope="col" className="w-44 px-4 py-3.5 text-right font-mono hidden sm:table-cell">
-                  Status & Waktu
+                <th scope="col" className="w-52 px-4 py-3.5 text-right font-mono hidden sm:table-cell">
+                  Waktu Selesai
                 </th>
                 <th scope="col" className="w-16 px-4 py-3.5 text-center">
                   Aksi
@@ -192,8 +191,11 @@ export const HistoryTable: React.FC<HistoryTableProps> = ({ initialQuests }) => 
 
                     {/* Solved Time Col */}
                     <td className="px-4 py-3 text-right font-mono text-xs text-zinc-400 hidden sm:table-cell whitespace-nowrap">
-                      <span className="inline-block px-2 py-0.5 rounded bg-emerald-950/60 border border-emerald-500/40 text-emerald-400 font-semibold">
-                        {formatRelativeTime(quest.completed_at || quest.created_at)}
+                      <span
+                        suppressHydrationWarning
+                        className="inline-block px-2 py-0.5 rounded bg-emerald-950/60 border border-emerald-500/40 text-emerald-400 font-semibold"
+                      >
+                        {formatSolvedTime(quest.completed_at || quest.created_at)}
                       </span>
                     </td>
 
