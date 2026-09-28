@@ -19,7 +19,7 @@ export async function compressAvatarImage(file: File): Promise<CompressionResult
 
   // 2. Validasi ukuran awal (maks 2MB sebelum kompresi atau setelah)
   const fileSizeMB = file.size / 1024 / 1024;
-  if (fileSizeMB > MAX_FILE_SIZEMB) {
+  if (fileSizeMB > MAX_FILE_SIZE_MB) {
     return {
       file,
       error: "Ukuran file terlalu besar! Maksimal 2 MB.",
