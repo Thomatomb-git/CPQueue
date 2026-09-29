@@ -18,7 +18,7 @@ export default async function DashboardLayout({
     redirect("/login");
   }
 
-  // Ambil profil pengguna
+  // Fetch user profile
   const { data: profile } = await supabase
     .from("profiles")
     .select("*")

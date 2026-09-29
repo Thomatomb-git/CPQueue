@@ -36,24 +36,24 @@ export const QuestCard: React.FC<QuestCardProps> = ({
     setIsSolving(true);
     triggerQuestSolvedConfetti(cardRef.current);
 
-    // Tunggu sedikit agar animasi strike-through dan confetti dinikmati pengguna
+    // Wait briefly so the user can enjoy the strike-through and confetti animation
     setTimeout(async () => {
       setIsDismissing(true);
 
       try {
         const res = await markQuestSolvedAction(quest.id);
         if (res?.error) {
-          error(res.error, "Gagal Menyelesaikan Quest");
+          error(res.error, "Failed to Complete Quest");
           setIsSolving(false);
           setIsDismissing(false);
         } else {
-          success(`Quest "${quest.title}" selesai! Ditambahkan ke histori.`);
+          success(`Quest "${quest.title}" completed! Added to history.`);
           setTimeout(() => {
             onSolved?.(quest.id);
           }, 350);
         }
       } catch {
-        error("Terjadi galat jaringan.");
+        error("A network error occurred.");
         setIsSolving(false);
         setIsDismissing(false);
       }
@@ -67,14 +67,14 @@ export const QuestCard: React.FC<QuestCardProps> = ({
     try {
       const res = await deleteQuestAction(quest.id);
       if (res?.error) {
-        error(res.error, "Gagal Menghapus Quest");
+        error(res.error, "Failed to Delete Quest");
         setIsDeleting(false);
       } else {
-        success(`Quest "${quest.title}" dihapus.`);
+        success(`Quest "${quest.title}" deleted.`);
         onDeleted?.(quest.id);
       }
     } catch {
-      error("Terjadi galat jaringan.");
+      error("A network error occurred.");
       setIsDeleting(false);
     }
   };
@@ -158,7 +158,7 @@ export const QuestCard: React.FC<QuestCardProps> = ({
         </label>
 
         <span suppressHydrationWarning className="text-[10px] font-mono text-zinc-500">
-          {new Date(quest.created_at).toLocaleDateString("id-ID", {
+          {new Date(quest.created_at).toLocaleDateString("en-US", {
             day: "numeric",
             month: "short",
           })}

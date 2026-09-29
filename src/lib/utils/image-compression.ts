@@ -9,24 +9,24 @@ export interface CompressionResult {
 }
 
 export async function compressAvatarImage(file: File): Promise<CompressionResult> {
-  // 1. Validasi tipe file
+  // 1. Validate file type
   if (!ALLOWED_TYPES.includes(file.type)) {
     return {
       file,
-      error: "Format gambar tidak didukung! Gunakan format .jpg, .png, atau .webp.",
+      error: "Unsupported image format! Please use .jpg, .png, or .webp.",
     };
   }
 
-  // 2. Validasi ukuran awal (maks 2MB sebelum kompresi atau setelah)
+  // 2. Validate initial size (max 2MB before or after compression)
   const fileSizeMB = file.size / 1024 / 1024;
   if (fileSizeMB > MAX_FILE_SIZE_MB) {
     return {
       file,
-      error: "Ukuran file terlalu besar! Maksimal 2 MB.",
+      error: "File size is too large! Maximum 2 MB.",
     };
   }
 
-  // 3. Kompresi gambar
+  // 3. Compress image
   const options = {
     maxSizeMB: 0.5, // Target kompresi di bawah 500KB untuk avatar yang cepat di-load
     maxWidthOrHeight: 512,
@@ -42,7 +42,7 @@ export async function compressAvatarImage(file: File): Promise<CompressionResult
     });
     return { file: compressedFile };
   } catch (err) {
-    console.warn("Gagal mengompresi gambar, menggunakan file asli:", err);
+    console.warn("Failed to compress image, using original file:", err);
     return { file };
   }
 }

@@ -8,7 +8,7 @@ export async function loginAction(formData: FormData) {
   const password = formData.get("password") as string;
 
   if (!email || !password) {
-    return { error: "Email dan password wajib diisi!" };
+    return { error: "Email and password are required!" };
   }
 
   const supabase = await createClient();
@@ -30,11 +30,11 @@ export async function registerAction(formData: FormData) {
   const password = formData.get("password") as string;
 
   if (!username || !email || !password) {
-    return { error: "Semua field (username, email, password) wajib diisi!" };
+    return { error: "All fields (username, email, password) are required!" };
   }
 
   if (username.length < 3) {
-    return { error: "Username minimal 3 karakter!" };
+    return { error: "Username must be at least 3 characters!" };
   }
 
   const supabase = await createClient();

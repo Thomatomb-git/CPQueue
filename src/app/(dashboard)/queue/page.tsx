@@ -13,7 +13,7 @@ export default async function QueuePage() {
   let initialQuests: Problem[] = [];
 
   if (user) {
-    // Ambil antrean soal aktif dengan urutan LIFO (created_at DESC)
+    // Fetch active problem queue in LIFO order (created_at DESC)
     const { data } = await supabase
       .from("problems")
       .select("*")

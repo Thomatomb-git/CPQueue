@@ -13,7 +13,7 @@ export interface QueueViewProps {
   initialQuests: Problem[];
 }
 
-const ITEMS_PER_PAGE = 24; // Sesuai PRD: 20–25 kartu per halaman
+const ITEMS_PER_PAGE = 24; // Per PRD: 20-25 cards per page
 
 export const QueueView: React.FC<QueueViewProps> = ({ initialQuests }) => {
   const [quests, setQuests] = React.useState<Problem[]>(initialQuests);
@@ -26,7 +26,7 @@ export const QueueView: React.FC<QueueViewProps> = ({ initialQuests }) => {
     setQuests(initialQuests);
   }, [initialQuests]);
 
-  // Hitung jumlah soal per platform untuk label badge filter
+  // Count problems per platform for filter badge labels
   const counts = React.useMemo(() => {
     const map: Record<FilterValue, number> = {
       all: quests.length,
@@ -50,16 +50,16 @@ export const QueueView: React.FC<QueueViewProps> = ({ initialQuests }) => {
     return map;
   }, [quests]);
 
-  // Filter berdasarkan platform
+  // Filter by platform
   const filteredQuests = React.useMemo(() => {
     if (selectedFilter === "all") return quests;
     return quests.filter((q) => q.platform === selectedFilter);
   }, [quests, selectedFilter]);
 
-  // Hitung paginasi
+  // Calculate pagination
   const totalPages = Math.max(1, Math.ceil(filteredQuests.length / ITEMS_PER_PAGE));
 
-  // Reset page jika ganti filter dan page sekarang > totalPages
+  // Reset page if filter changes and current page > totalPages
   React.useEffect(() => {
     if (currentPage > totalPages) {
       setCurrentPage(1);
@@ -88,7 +88,7 @@ export const QueueView: React.FC<QueueViewProps> = ({ initialQuests }) => {
       {/* 1. URL Input Bar */}
       <section className="rounded-2xl border-[3px] border-white bg-surface p-4 sm:p-6 shadow-[5px_5px_0px_0px_#FFFFFF]">
         <h2 className="mb-3 text-xs font-black uppercase tracking-wider text-zinc-400 font-mono">
-          Input URL Soal
+          Problem URL Input
         </h2>
         <QuestInputBar onQuestAdded={handleQuestAdded} />
       </section>
@@ -109,7 +109,7 @@ export const QueueView: React.FC<QueueViewProps> = ({ initialQuests }) => {
       <section className="pt-1">
         <div className="mb-3 flex items-center justify-between">
           <span className="font-mono text-xs font-bold text-zinc-400">
-            Menampilkan: <span className="text-white font-black">{filteredQuests.length}</span> Quest Aktif
+            Showing: <span className="text-white font-black">{filteredQuests.length}</span> Active Quests
           </span>
           {selectedFilter !== "all" && (
             <button

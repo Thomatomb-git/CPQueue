@@ -21,7 +21,7 @@ export default function RegisterPage() {
     try {
       const res = await registerAction(formData);
       if (res?.error) {
-        error(res.error, "Gagal Daftar");
+        error(res.error, "Registration Failed");
         setLoading(false);
       }
     } catch {
@@ -33,10 +33,10 @@ export default function RegisterPage() {
     <Card className="p-6 sm:p-8">
       <div className="mb-6">
         <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight">
-          Buat Akun Baru
+          Create New Account
         </h2>
         <p className="mt-1 text-xs text-zinc-400 font-medium">
-          Mulai catat target upsolving dan tingkatkan rating CP Anda.
+          Start tracking your upsolving goals and improve your CP rating.
         </p>
       </div>
 
@@ -63,7 +63,7 @@ export default function RegisterPage() {
           <Input
             type="email"
             name="email"
-            placeholder="nama@domain.com"
+            placeholder="name@domain.com"
             required
             autoComplete="email"
             disabled={loading}
@@ -77,7 +77,7 @@ export default function RegisterPage() {
           <Input
             type="password"
             name="password"
-            placeholder="Minimal 6 karakter"
+            placeholder="Minimum 6 characters"
             required
             minLength={6}
             autoComplete="new-password"
@@ -95,12 +95,12 @@ export default function RegisterPage() {
             {loading ? (
               <>
                 <Loader2 className="h-4 w-4 animate-spin" />
-                <span>Membuat Akun...</span>
+                <span>Creating Account...</span>
               </>
             ) : (
               <>
                 <UserPlus className="h-4 w-4" />
-                <span>DAFTAR SEKARANG</span>
+                <span>REGISTER NOW</span>
               </>
             )}
           </Button>
@@ -108,12 +108,12 @@ export default function RegisterPage() {
       </form>
 
       <div className="mt-6 border-t-2 border-zinc-800 pt-4 text-center text-xs font-mono text-zinc-400">
-        Sudah memiliki akun?{" "}
+        Already have an account?{" "}
         <Link
           href="/login"
           className="font-bold text-[#FACC15] hover:underline"
         >
-          Masuk di sini
+          Sign in here
         </Link>
       </div>
     </Card>

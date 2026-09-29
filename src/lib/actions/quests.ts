@@ -7,7 +7,7 @@ import { revalidatePath } from "next/cache";
 
 export async function addQuestAction(rawUrl: string) {
   if (!rawUrl || !rawUrl.trim()) {
-    return { error: "URL soal tidak boleh kosong!" };
+    return { error: "Problem URL cannot be empty!" };
   }
 
   const supabase = await createClient();
@@ -16,15 +16,15 @@ export async function addQuestAction(rawUrl: string) {
   } = await supabase.auth.getUser();
 
   if (!user) {
-    return { error: "Silakan login terlebih dahulu." };
+    return { error: "Please log in first." };
   }
 
   const normalized = normalizeUrl(rawUrl);
   if (!normalized) {
-    return { error: "URL tidak valid!" };
+    return { error: "Invalid URL!" };
   }
 
-  // 1. Cek duplikasi manual atau tangkap unique constraint
+  // 1. Check for duplicates manually or catch unique constraint
   const { data: existing } = await supabase
     .from("problems")
     .select("id, is_completed")
@@ -34,7 +34,7 @@ export async function addQuestAction(rawUrl: string) {
 
   if (existing) {
     return {
-      error: "Quest ini sudah ada di log latihanmu!",
+      error: "This quest already exists in your practice log!",
       isDuplicate: true,
     };
   }
@@ -53,11 +53,11 @@ export async function addQuestAction(rawUrl: string) {
   if (insertError) {
     if (insertError.code === "23505") {
       return {
-        error: "Quest ini sudah ada di log latihanmu!",
+        error: "This quest already exists in your practice log!",
         isDuplicate: true,
       };
     }
-    return { error: `Gagal menambahkan quest: ${insertError.message}` };
+    return { error: `Failed to add quest: ${insertError.message}` };
   }
 
   revalidatePath("/queue");
@@ -71,7 +71,7 @@ export async function markQuestSolvedAction(problemId: string) {
   } = await supabase.auth.getUser();
 
   if (!user) {
-    return { error: "Tidak terotentikasi" };
+    return { error: "Not authenticated" };
   }
 
   const { data, error } = await supabase
@@ -89,7 +89,7 @@ export async function markQuestSolvedAction(problemId: string) {
   }
 
   if (!data || data.length === 0) {
-    return { error: "Gagal menandai selesai: data tidak ditemukan atau akses ditolak oleh RLS." };
+    return { error: "Failed to mark as solved: data not found or access denied by RLS." };
   }
 
   revalidatePath("/queue");
@@ -104,7 +104,7 @@ export async function deleteQuestAction(problemId: string) {
   } = await supabase.auth.getUser();
 
   if (!user) {
-    return { error: "Tidak terotentikasi" };
+    return { error: "Not authenticated" };
   }
 
   const { data, error } = await supabase
@@ -119,7 +119,7 @@ export async function deleteQuestAction(problemId: string) {
   }
 
   if (!data || data.length === 0) {
-    return { error: "Gagal menghapus: data tidak ditemukan atau akses ditolak oleh RLS." };
+    return { error: "Failed to delete: data not found or access denied by RLS." };
   }
 
   revalidatePath("/queue");
@@ -138,7 +138,7 @@ export async function reQueueQuestAction(problemId: string) {
   } = await supabase.auth.getUser();
 
   if (!user) {
-    return { error: "Tidak terotentikasi" };
+    return { error: "Not authenticated" };
   }
 
   const { data, error } = await supabase
@@ -157,7 +157,7 @@ export async function reQueueQuestAction(problemId: string) {
   }
 
   if (!data || data.length === 0) {
-    return { error: "Gagal mengembalikan quest: data tidak ditemukan atau akses ditolak oleh RLS." };
+    return { error: "Failed to re-queue quest: data not found or access denied by RLS." };
   }
 
   revalidatePath("/queue");
@@ -176,7 +176,7 @@ export async function bulkDeleteQuestsAction(problemIds: string[]) {
   } = await supabase.auth.getUser();
 
   if (!user) {
-    return { error: "Tidak terotentikasi" };
+    return { error: "Not authenticated" };
   }
 
   const { data, error } = await supabase
@@ -191,7 +191,7 @@ export async function bulkDeleteQuestsAction(problemIds: string[]) {
   }
 
   if (!data || data.length === 0) {
-    return { error: "Gagal menghapus: tidak ada data yang terhapus. Kemungkinan akses ditolak oleh RLS." };
+    return { error: "Failed to delete: no data was deleted. Access may have been denied by RLS." };
   }
 
   revalidatePath("/history");

@@ -39,13 +39,13 @@ export const HistoryRowActions: React.FC<HistoryRowActionsProps> = ({
     try {
       const res = await reQueueQuestAction(questId);
       if (res?.error) {
-        error(res.error, "Gagal Mengembalikan Quest");
+        error(res.error, "Failed to Re-queue Quest");
       } else {
-        success(`Quest "${questTitle}" dikembalikan ke antrean aktif!`);
+        success(`Quest "${questTitle}" returned to active queue!`);
         onActionComplete?.();
       }
     } catch {
-      error("Terjadi kesalahan jaringan.");
+      error("A network error occurred.");
     } finally {
       setLoading(false);
     }
@@ -56,13 +56,13 @@ export const HistoryRowActions: React.FC<HistoryRowActionsProps> = ({
     try {
       const res = await deleteQuestAction(questId);
       if (res?.error) {
-        error(res.error, "Gagal Menghapus");
+        error(res.error, "Delete Failed");
       } else {
-        success(`Quest "${questTitle}" dihapus permanen.`);
+        success(`Quest "${questTitle}" permanently deleted.`);
         onActionComplete?.();
       }
     } catch {
-      error("Terjadi kesalahan jaringan.");
+      error("A network error occurred.");
     } finally {
       setLoading(false);
     }
@@ -114,9 +114,9 @@ export const HistoryRowActions: React.FC<HistoryRowActionsProps> = ({
       <Modal
         isOpen={showDeleteModal}
         onClose={() => setShowDeleteModal(false)}
-        title="Hapus Quest Permanen?"
-        description={`Apakah Anda yakin ingin menghapus "${questTitle}" secara permanen? Data riwayat ini tidak dapat dikembalikan.`}
-        confirmLabel="Hapus Permanen"
+        title="Delete Quest Permanently?"
+        description={`Are you sure you want to permanently delete "${questTitle}"? This history data cannot be recovered.`}
+        confirmLabel="Delete Permanently"
         isDestructive={true}
         onConfirm={handleDeletePermanent}
       />

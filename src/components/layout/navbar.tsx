@@ -44,7 +44,7 @@ export const Navbar: React.FC<NavbarProps> = ({ profile }) => {
             <Swords className="h-6 w-6 stroke-[2.5]" />
           </div>
           <span className="font-mono text-xl font-black tracking-tight text-white sm:text-2xl drop-shadow-[2px_2px_0px_#27272A]">
-            CP <span className="text-[#FACC15]">QUEST</span>
+            CP <span className="text-[#FACC15]">QUEUE</span>
           </span>
         </Link>
 
@@ -96,7 +96,7 @@ export const Navbar: React.FC<NavbarProps> = ({ profile }) => {
             {dropdownOpen && (
               <div className="absolute right-0 mt-3 w-56 rounded-xl border-[2.5px] border-white bg-surface p-2 text-white shadow-[6px_6px_0px_0px_#FFFFFF] animate-in fade-in zoom-in-95 duration-100 z-50">
                 <div className="border-b-2 border-zinc-800 px-3 py-2">
-                  <div className="text-xs text-zinc-400 font-semibold">Login sebagai</div>
+                  <div className="text-xs text-zinc-400 font-semibold">Logged in as</div>
                   <div className="font-mono text-sm font-bold text-[#FACC15] truncate">
                     @{profile?.username || "warrior"}
                   </div>

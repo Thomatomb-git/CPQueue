@@ -22,9 +22,9 @@ export const QuestGrid: React.FC<QuestGridProps> = ({
         <div className="flex h-16 w-16 items-center justify-center rounded-full border-2 border-zinc-600 bg-zinc-800 text-zinc-400 mb-4">
           <Swords className="h-8 w-8" />
         </div>
-        <h4 className="text-lg font-black text-white">Antrean Quest Kosong!</h4>
+        <h4 className="text-lg font-black text-white">Quest Queue is Empty!</h4>
         <p className="mt-1 text-sm text-zinc-400 max-w-sm">
-          Tempel URL soal dari Codeforces, AtCoder, TLX, atau platform lainnya di atas untuk mulai latihan.
+          Paste a problem URL from Codeforces, AtCoder, TLX, or other platforms above to start practicing.
         </p>
       </div>
     );

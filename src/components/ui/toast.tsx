@@ -44,7 +44,7 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     () => ({
       toast: addToast,
       error: (msg: string, title?: string) => addToast(msg, "error", title || "Oops!"),
-      success: (msg: string, title?: string) => addToast(msg, "success", title || "Mantap!"),
+      success: (msg: string, title?: string) => addToast(msg, "success", title || "Awesome!"),
     }),
     [addToast]
   );

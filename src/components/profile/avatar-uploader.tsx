@@ -31,10 +31,10 @@ export const AvatarUploader: React.FC<AvatarUploaderProps> = ({
     setUploading(true);
 
     try {
-      // 1. Kompresi gambar & validasi tipe/ukuran (< 2MB)
+      // 1. Compress image & validate type/size (< 2MB)
       const compressionResult = await compressAvatarImage(file);
       if (compressionResult.error) {
-        error(compressionResult.error, "Format Tidak Valid");
+        error(compressionResult.error, "Invalid Format");
         setUploading(false);
         return;
       }
@@ -43,7 +43,7 @@ export const AvatarUploader: React.FC<AvatarUploaderProps> = ({
       const fileExt = file.name.split(".").pop() || "png";
       const filePath = `${userId}/${Date.now()}.${fileExt}`;
 
-      // 2. Upload ke Supabase Storage bucket 'avatars'
+      // 2. Upload to Supabase Storage bucket 'avatars'
       const supabase = createClient();
       const { error: uploadError } = await supabase.storage
         .from("avatars")
@@ -53,28 +53,28 @@ export const AvatarUploader: React.FC<AvatarUploaderProps> = ({
         });
 
       if (uploadError) {
-        error(`Gagal upload avatar: ${uploadError.message}`, "Storage Error");
+        error(`Failed to upload avatar: ${uploadError.message}`, "Storage Error");
         setUploading(false);
         return;
       }
 
-      // 3. Dapatkan URL publik
+      // 3. Get public URL
       const { data: publicUrlData } = supabase.storage
         .from("avatars")
         .getPublicUrl(filePath);
 
       const publicUrl = publicUrlData.publicUrl;
 
-      // 4. Update avatar_url di tabel profiles
+      // 4. Update avatar_url in profiles table
       const res = await updateAvatarAction(publicUrl);
       if (res?.error) {
         error(res.error, "Database Error");
       } else {
         setAvatarUrl(publicUrl);
-        success("Foto profil berhasil diperbarui!");
+        success("Profile photo updated successfully!");
       }
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : "Terjadi kesalahan saat memproses gambar.";
+      const message = err instanceof Error ? err.message : "An error occurred while processing the image.";
       error(message);
     } finally {
       setUploading(false);
@@ -101,7 +101,7 @@ export const AvatarUploader: React.FC<AvatarUploaderProps> = ({
           className="absolute inset-0 flex flex-col items-center justify-center rounded-full bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer text-white font-bold text-xs"
         >
           <Camera className="h-6 w-6 mb-1" />
-          <span>Ganti</span>
+          <span>Change</span>
         </button>
       </div>
 
@@ -123,18 +123,18 @@ export const AvatarUploader: React.FC<AvatarUploaderProps> = ({
           {uploading ? (
             <>
               <Loader2 className="h-4 w-4 animate-spin" />
-              <span>Mengunggah...</span>
+              <span>Uploading...</span>
             </>
           ) : (
             <>
               <Upload className="h-4 w-4" />
-              <span>Unggah Foto Baru</span>
+              <span>Upload New Photo</span>
             </>
           )}
         </button>
 
         <span className="text-[11px] font-mono text-zinc-400">
-          Maksimal 2 MB (Format: .jpg, .png, .webp).
+          Maximum 2 MB (Formats: .jpg, .png, .webp).
         </span>
       </div>
     </div>

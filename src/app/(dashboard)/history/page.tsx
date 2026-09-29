@@ -29,10 +29,10 @@ export default async function HistoryPage() {
     <div className="space-y-6">
       <div className="flex flex-col gap-1">
         <h1 className="font-mono text-2xl font-black tracking-tight text-white sm:text-3xl">
-          Riwayat <span className="text-[#FACC15]">Terselesaikan</span>
+          Solved <span className="text-[#FACC15]">History</span>
         </h1>
         <p className="text-xs sm:text-sm font-medium text-zinc-400">
-          Daftar seluruh soal yang telah berhasil Anda upsolve. Anda dapat mengembalikannya ke antrean atau menghapusnya.
+          All problems you have successfully upsolved. You can re-queue them or delete them.
         </p>
       </div>
 

@@ -28,12 +28,12 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({
     try {
       const res = await updateUsernameAction(username);
       if (res?.error) {
-        error(res.error, "Gagal Memperbarui Profil");
+        error(res.error, "Profile Update Failed");
       } else {
-        success("Username berhasil diperbarui!");
+        success("Username updated successfully!");
       }
     } catch {
-      error("Terjadi galat jaringan.");
+      error("A network error occurred.");
     } finally {
       setLoading(false);
     }
@@ -43,7 +43,7 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({
     <form onSubmit={handleUpdate} className="space-y-4">
       <div>
         <label className="block text-xs font-black uppercase tracking-wider text-zinc-300 font-mono mb-1.5">
-          Email Akun
+          Account Email
         </label>
         <Input
           type="email"
@@ -52,7 +52,7 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({
           className="bg-zinc-900 border-zinc-700 text-zinc-400 cursor-not-allowed font-mono text-sm"
         />
         <span className="text-[11px] font-mono text-zinc-500 mt-1 block">
-          Email akun tidak dapat diubah secara langsung.
+          Account email cannot be changed directly.
         </span>
       </div>
 
@@ -86,12 +86,12 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({
           {loading ? (
             <>
               <Loader2 className="h-4 w-4 animate-spin" />
-              <span>Menyimpan...</span>
+              <span>Saving...</span>
             </>
           ) : (
             <>
               <Save className="h-4 w-4" />
-              <span>Simpan Perubahan</span>
+              <span>Save Changes</span>
             </>
           )}
         </Button>

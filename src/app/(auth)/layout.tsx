@@ -16,7 +16,7 @@ export default function AuthLayout({
         </div>
         <div className="flex flex-col">
           <h1 className="font-mono text-2xl sm:text-3xl font-black tracking-tight text-white">
-            CP <span className="text-[#FACC15]">QUEST</span>
+            CP <span className="text-[#FACC15]">QUEUE</span>
           </h1>
           <p className="text-xs font-mono font-bold text-zinc-400">
             Upsolve Log & Queue Manager

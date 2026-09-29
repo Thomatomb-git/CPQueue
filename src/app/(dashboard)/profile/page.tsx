@@ -30,17 +30,17 @@ export default async function ProfilePage() {
     <div className="max-w-2xl mx-auto space-y-6">
       <div className="flex flex-col gap-1">
         <h1 className="font-mono text-2xl font-black tracking-tight text-white sm:text-3xl">
-          Pengaturan <span className="text-[#FACC15]">Profil</span>
+          Profile <span className="text-[#FACC15]">Settings</span>
         </h1>
         <p className="text-xs sm:text-sm font-medium text-zinc-400">
-          Kelola identitas petualang CP dan avatar neobrutalism Anda.
+          Manage your CP identity and neobrutalism avatar.
         </p>
       </div>
 
-      {/* 1. Foto Profil (Avatar Uploader) */}
+      {/* 1. Profile Photo (Avatar Uploader) */}
       <Card className="p-6">
         <h2 className="text-sm font-black uppercase tracking-wider text-zinc-300 font-mono mb-4">
-          Foto Profil (Avatar)
+          Profile Photo (Avatar)
         </h2>
         <AvatarUploader
           currentAvatarUrl={avatarUrl}
@@ -49,19 +49,19 @@ export default async function ProfilePage() {
         />
       </Card>
 
-      {/* 2. Form Identitas Pengguna */}
+      {/* 2. User Identity Form */}
       <Card className="p-6">
         <h2 className="text-sm font-black uppercase tracking-wider text-zinc-300 font-mono mb-4">
-          Informasi Akun
+          Account Information
         </h2>
         <ProfileForm initialUsername={username} email={user.email || ""} />
       </Card>
 
-      {/* 3. Info Keamanan */}
+      {/* 3. Security Info */}
       <div className="flex items-center gap-3 rounded-xl border-2 border-zinc-800 bg-surface/50 p-4 text-xs text-zinc-400">
         <Shield className="h-5 w-5 text-[#22C55E] shrink-0" />
         <span>
-          Data Anda dilindungi oleh Row-Level Security (RLS) PostgreSQL bawaan Supabase. Hanya Anda yang dapat mengakses dan mengelola antrean soal Anda.
+          Your data is protected by Supabase's built-in PostgreSQL Row-Level Security (RLS). Only you can access and manage your problem queue.
         </span>
       </div>
     </div>

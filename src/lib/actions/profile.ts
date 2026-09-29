@@ -6,7 +6,7 @@ import { revalidatePath } from "next/cache";
 export async function updateUsernameAction(newUsername: string) {
   const trimmed = newUsername?.trim();
   if (!trimmed || trimmed.length < 3) {
-    return { error: "Username minimal 3 karakter!" };
+    return { error: "Username must be at least 3 characters!" };
   }
 
   const supabase = await createClient();
@@ -15,7 +15,7 @@ export async function updateUsernameAction(newUsername: string) {
   } = await supabase.auth.getUser();
 
   if (!user) {
-    return { error: "Tidak terotentikasi" };
+    return { error: "Not authenticated" };
   }
 
   const { error } = await supabase
@@ -25,7 +25,7 @@ export async function updateUsernameAction(newUsername: string) {
 
   if (error) {
     if (error.code === "23505") {
-      return { error: "Username ini sudah digunakan! Silakan pilih yang lain." };
+      return { error: "This username is already taken! Please choose another." };
     }
     return { error: error.message };
   }
@@ -41,7 +41,7 @@ export async function updateAvatarAction(avatarUrl: string) {
   } = await supabase.auth.getUser();
 
   if (!user) {
-    return { error: "Tidak terotentikasi" };
+    return { error: "Not authenticated" };
   }
 
   const { error } = await supabase

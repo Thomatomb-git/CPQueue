@@ -24,14 +24,14 @@ export const QuestInputBar: React.FC<QuestInputBarProps> = ({ onQuestAdded }) =>
     try {
       const res = await addQuestAction(url);
       if (res?.error) {
-        error(res.error, res.isDuplicate ? "QUEST DUPLIKAT!" : "GAGAL INPUT");
+        error(res.error, res.isDuplicate ? "DUPLICATE QUEST!" : "INPUT FAILED");
       } else {
-        success(`Quest "${res.title}" berhasil ditambahkan ke antrean!`);
+        success(`Quest "${res.title}" added to queue successfully!`);
         setUrl("");
         onQuestAdded?.();
       }
     } catch {
-      error("Terjadi kesalahan jaringan saat menambahkan quest.");
+      error("A network error occurred while adding the quest.");
     } finally {
       setLoading(false);
     }
@@ -43,7 +43,7 @@ export const QuestInputBar: React.FC<QuestInputBarProps> = ({ onQuestAdded }) =>
         <div className="relative flex-1">
           <Input
             type="text"
-            placeholder="Paste URL Soal (Codeforces, AtCoder, TLX, VJudge, Luogu, CSES...)"
+            placeholder="Paste Problem URL (Codeforces, AtCoder, TLX, VJudge, Luogu, CSES...)"
             value={url}
             onChange={(e) => setUrl(e.target.value)}
             disabled={loading}

@@ -29,14 +29,14 @@ export const HistoryBulkActions: React.FC<HistoryBulkActionsProps> = ({
     try {
       const res = await bulkDeleteQuestsAction(selectedIds);
       if (res?.error) {
-        error(res.error, "Gagal Hapus Masal");
+        error(res.error, "Bulk Delete Failed");
       } else {
-        success(`${selectedIds.length} quest riwayat berhasil dihapus.`);
+        success(`${selectedIds.length} history quests deleted successfully.`);
         onClearSelection();
         onDeleted?.();
       }
     } catch {
-      error("Terjadi galat jaringan.");
+      error("A network error occurred.");
     } finally {
       setLoading(false);
     }
@@ -47,7 +47,7 @@ export const HistoryBulkActions: React.FC<HistoryBulkActionsProps> = ({
       {/* Floating Action Bar */}
       <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-40 flex items-center gap-3 rounded-2xl border-[3px] border-white bg-surface px-5 py-3 shadow-[6px_6px_0px_0px_#EF4444] animate-in slide-in-from-bottom-6 duration-200">
         <span className="font-mono text-sm font-black text-white">
-          <span className="text-[#FACC15]">{selectedIds.length}</span> Quest Dipilih
+          <span className="text-[#FACC15]">{selectedIds.length}</span> Quests Selected
         </span>
 
         <div className="h-5 w-[2px] bg-zinc-700" />
@@ -64,13 +64,13 @@ export const HistoryBulkActions: React.FC<HistoryBulkActionsProps> = ({
           ) : (
             <Trash2 className="h-4 w-4" />
           )}
-          <span>Hapus ({selectedIds.length}) Terpilih</span>
+          <span>Delete ({selectedIds.length}) Selected</span>
         </Button>
 
         <button
           onClick={onClearSelection}
           className="p-1 rounded-md text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors"
-          aria-label="Batalkan pilihan"
+          aria-label="Clear selection"
         >
           <X className="h-4 w-4" />
         </button>
@@ -79,9 +79,9 @@ export const HistoryBulkActions: React.FC<HistoryBulkActionsProps> = ({
       <Modal
         isOpen={showModal}
         onClose={() => setShowModal(false)}
-        title="Konfirmasi Hapus Masal"
-        description={`Apakah Anda yakin ingin menghapus ${selectedIds.length} quest riwayat yang dipilih secara permanen? Tindakan ini tidak dapat dibatalkan.`}
-        confirmLabel={`Hapus ${selectedIds.length} Quest`}
+        title="Confirm Bulk Delete"
+        description={`Are you sure you want to permanently delete ${selectedIds.length} selected history quests? This action cannot be undone.`}
+        confirmLabel={`Delete ${selectedIds.length} Quests`}
         isDestructive={true}
         onConfirm={handleBulkDelete}
       />

@@ -14,22 +14,22 @@ export interface HistoryTableProps {
 }
 
 function formatSolvedTime(dateString: string | null): string {
-  if (!dateString) return "Baru saja";
+  if (!dateString) return "Just now";
   try {
     const date = new Date(dateString);
-    const time = date.toLocaleTimeString("id-ID", {
+    const time = date.toLocaleTimeString("en-US", {
       hour: "2-digit",
       minute: "2-digit",
       hour12: false,
     });
-    const day = date.toLocaleDateString("id-ID", {
+    const day = date.toLocaleDateString("en-US", {
       day: "numeric",
       month: "short",
       year: "numeric",
     });
     return `Solved ${time}, ${day}`;
   } catch {
-    return "Terselesaikan";
+    return "Solved";
   }
 }
 
@@ -93,7 +93,7 @@ export const HistoryTable: React.FC<HistoryTableProps> = ({ initialQuests }) => 
         <div className="relative flex-1 max-w-md">
           <Input
             type="text"
-            placeholder="Cari di riwayat soal..."
+            placeholder="Search solved problems..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="pl-10 h-10 text-xs font-mono"
@@ -102,7 +102,7 @@ export const HistoryTable: React.FC<HistoryTableProps> = ({ initialQuests }) => 
         </div>
 
         <div className="font-mono text-xs font-bold text-zinc-400 self-end sm:self-center">
-          Total Diselesaikan: <span className="text-[#FACC15]">{quests.length}</span> Quest
+          Total Solved: <span className="text-[#FACC15]">{quests.length}</span> Quests
         </div>
       </div>
 
@@ -112,9 +112,9 @@ export const HistoryTable: React.FC<HistoryTableProps> = ({ initialQuests }) => 
           <div className="flex h-14 w-14 items-center justify-center rounded-full border-2 border-zinc-600 bg-zinc-800 text-zinc-400 mb-3">
             <HistoryIcon className="h-7 w-7" />
           </div>
-          <h4 className="text-base font-black text-white">Belum Ada Riwayat</h4>
+          <h4 className="text-base font-black text-white">No History Yet</h4>
           <p className="mt-1 text-xs text-zinc-400 max-w-xs">
-            Soal yang Anda tandai selesai di antrean aktif akan otomatis masuk ke tabel ini.
+            Problems you mark as solved in the active queue will automatically appear in this table.
           </p>
         </div>
       ) : (
@@ -134,13 +134,13 @@ export const HistoryTable: React.FC<HistoryTableProps> = ({ initialQuests }) => 
                   Platform
                 </th>
                 <th scope="col" className="px-4 py-3.5">
-                  Judul Soal & Link
+                  Problem Title & Link
                 </th>
                 <th scope="col" className="w-52 px-4 py-3.5 text-right font-mono hidden sm:table-cell">
-                  Waktu Selesai
+                  Solved At
                 </th>
                 <th scope="col" className="w-16 px-4 py-3.5 text-center">
-                  Aksi
+                  Actions
                 </th>
               </tr>
             </thead>

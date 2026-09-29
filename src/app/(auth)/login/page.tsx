@@ -21,7 +21,7 @@ export default function LoginPage() {
     try {
       const res = await loginAction(formData);
       if (res?.error) {
-        error(res.error, "Gagal Masuk");
+        error(res.error, "Login Failed");
         setLoading(false);
       }
     } catch {
@@ -34,10 +34,10 @@ export default function LoginPage() {
     <Card className="p-6 sm:p-8">
       <div className="mb-6">
         <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight">
-          Masuk ke Akun
+          Sign In to Your Account
         </h2>
         <p className="mt-1 text-xs text-zinc-400 font-medium">
-          Lanjutkan latihan dan taklukkan antrean soal pasca-kontesmu.
+          Continue practicing and conquer your post-contest problem queue.
         </p>
       </div>
 
@@ -49,7 +49,7 @@ export default function LoginPage() {
           <Input
             type="email"
             name="email"
-            placeholder="nama@domain.com"
+            placeholder="name@domain.com"
             required
             autoComplete="email"
             disabled={loading}
@@ -80,12 +80,12 @@ export default function LoginPage() {
             {loading ? (
               <>
                 <Loader2 className="h-4 w-4 animate-spin" />
-                <span>Memproses...</span>
+                <span>Processing...</span>
               </>
             ) : (
               <>
                 <LogIn className="h-4 w-4" />
-                <span>MASUK</span>
+                <span>SIGN IN</span>
               </>
             )}
           </Button>
@@ -93,12 +93,12 @@ export default function LoginPage() {
       </form>
 
       <div className="mt-6 border-t-2 border-zinc-800 pt-4 text-center text-xs font-mono text-zinc-400">
-        Belum punya akun?{" "}
+        Don't have an account?{" "}
         <Link
           href="/register"
           className="font-bold text-[#FACC15] hover:underline"
         >
-          Daftar sekarang
+          Register now
         </Link>
       </div>
     </Card>
