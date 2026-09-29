@@ -1,6 +1,6 @@
 import imageCompression from "browser-image-compression";
 
-const MAX_FILE_SIZE_MB = 2;
+const MAX_FILE_SIZE_MB = 5;
 const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp"];
 
 export interface CompressionResult {
@@ -22,7 +22,7 @@ export async function compressAvatarImage(file: File): Promise<CompressionResult
   if (fileSizeMB > MAX_FILE_SIZE_MB) {
     return {
       file,
-      error: "File size is too large! Maximum 2 MB.",
+      error: "File size is too large! Maximum 5 MB.",
     };
   }
 

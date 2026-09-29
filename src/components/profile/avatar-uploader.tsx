@@ -134,7 +134,7 @@ export const AvatarUploader: React.FC<AvatarUploaderProps> = ({
         </button>
 
         <span className="text-[11px] font-mono text-zinc-400">
-          Maximum 2 MB (Formats: .jpg, .png, .webp).
+          Maximum 5 MB (Formats: .jpg, .png, .webp).
         </span>
       </div>
     </div>
