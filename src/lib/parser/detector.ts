@@ -13,14 +13,26 @@ export function detectPlatformAndExtractTitle(url: string): DetectionResult {
 
     // 1. Codeforces
     if (hostname.includes("codeforces.com")) {
-      const cfRegex = /(?:contest|problemset\/problem)\/(\d+)(?:\/problem)?\/([A-Za-z0-9]+)/i;
-      const match = pathname.match(cfRegex);
-      if (match) {
+      // Contest / problemset problems: /contest/1234/problem/A or /problemset/problem/1234/A
+      const cfContestRegex = /(?:contest|problemset\/problem)\/(\d+)(?:\/problem)?\/([A-Za-z0-9]+)/i;
+      const contestMatch = pathname.match(cfContestRegex);
+      if (contestMatch) {
         return {
           platform: "codeforces",
-          title: `CF ${match[1]} - ${match[2].toUpperCase()}`,
+          title: `CF ${contestMatch[1]} - ${contestMatch[2].toUpperCase()}`,
         };
       }
+
+      // Gym problems: /gym/102012/problem/D
+      const cfGymRegex = /gym\/(\d+)(?:\/problem)?\/([A-Za-z0-9]+)/i;
+      const gymMatch = pathname.match(cfGymRegex);
+      if (gymMatch) {
+        return {
+          platform: "codeforces",
+          title: `CF Gym ${gymMatch[1]} - ${gymMatch[2].toUpperCase()}`,
+        };
+      }
+
       return {
         platform: "codeforces",
         title: `Codeforces - ${pathname.split("/").filter(Boolean).pop() || "Problem"}`,
