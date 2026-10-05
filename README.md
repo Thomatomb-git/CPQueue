@@ -75,84 +75,10 @@ CPQueue combines high-contrast pitch-dark ergonomics with playful retro comic ae
 
 ---
 
-## 🚀 Getting Started
-
-### Prerequisites
-
-- [Node.js](https://nodejs.org/) (v18.18.0 or higher recommended)
-- [npm](https://www.npmjs.com/) or [pnpm](https://pnpm.io/)
-- A free [Supabase](https://supabase.com/) project
-
-### 1. Clone the Repository
-
-```bash
-git clone https://github.com/thomatomb-git/CPQueue.git
-cd CPQueue
-```
-
-### 2. Install Dependencies
-
-```bash
-npm install
-```
-
-### 3. Setup Environment Variables
-
-Copy the example environment file:
-
-```bash
-cp .env.example .env.local
-```
-
-Fill in your Supabase credentials in `.env.local`:
-
-```env
-NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
-
-# Server-side key for username resolution (keep secret, never prefix with NEXT_PUBLIC_)
-SUPABASE_SERVICE_ROLE_KEY=your-supabase-service-role-key
-```
-
-### 4. Database Setup (Supabase)
-
-Run the SQL migration scripts in your **Supabase SQL Editor** in order:
-1. `supabase/migrations/20260923000000_initial_schema.sql` (Creates profiles, problems, RLS policies, and storage bucket)
-2. `supabase/migrations/20261005000000_unique_username_login.sql` (Unique username index & username login RPC)
-3. `supabase/migrations/20261005000001_add_is_decoy_to_profiles.sql` (Profile metadata updates)
-
-### 5. Run Development Server
-
-```bash
-npm run dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) in your browser to start tracking your upsolve quests!
-
----
-
-## 📦 Production Deployment
-
-### Deploy to Vercel
-
-1. Push your repository to GitHub.
-2. Import the project into [Vercel](https://vercel.com/new).
-3. Add the following **Environment Variables** in Vercel Project Settings:
-   - `NEXT_PUBLIC_SUPABASE_URL`
-   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-   - `SUPABASE_SERVICE_ROLE_KEY`
-4. Deploy! Next.js will automatically build and optimize production assets.
-
----
-
-## 📄 License
-
-This project is open-source and available under the [MIT License](LICENSE).
-
----
-
 <div align="center">
 
 Crafted with ⚔️ by **[thomatomb-git](https://github.com/thomatomb-git)**
 
 </div>
+
+Maybe you can open gist in github
