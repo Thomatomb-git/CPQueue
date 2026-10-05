@@ -15,12 +15,14 @@ export interface QuestCardProps {
   quest: Problem;
   onSolved?: (id: string) => void;
   onDeleted?: (id: string) => void;
+  isReadOnly?: boolean;
 }
 
 export const QuestCard: React.FC<QuestCardProps> = ({
   quest,
   onSolved,
   onDeleted,
+  isReadOnly = false,
 }) => {
   const [isSolving, setIsSolving] = React.useState(false);
   const [isDismissing, setIsDismissing] = React.useState(false);
@@ -95,19 +97,21 @@ export const QuestCard: React.FC<QuestCardProps> = ({
       <div className="flex items-center justify-between gap-3">
         <Badge platform={quest.platform} />
 
-        <button
-          type="button"
-          onClick={handleDelete}
-          disabled={isDeleting || isSolving}
-          aria-label="Delete quest"
-          className="flex h-7 w-7 items-center justify-center rounded-md border-2 border-white bg-zinc-800 text-zinc-400 hover:bg-red-600 hover:text-white transition-colors active:translate-x-0.5 active:translate-y-0.5 cursor-pointer disabled:opacity-50"
-        >
-          {isDeleting ? (
-            <Loader2 className="h-3.5 w-3.5 animate-spin" />
-          ) : (
-            <X className="h-4 w-4 stroke-[2.5]" />
-          )}
-        </button>
+        {!isReadOnly && (
+          <button
+            type="button"
+            onClick={handleDelete}
+            disabled={isDeleting || isSolving}
+            aria-label="Delete quest"
+            className="flex h-7 w-7 items-center justify-center rounded-md border-2 border-white bg-zinc-800 text-zinc-400 hover:bg-red-600 hover:text-white transition-colors active:translate-x-0.5 active:translate-y-0.5 cursor-pointer disabled:opacity-50"
+          >
+            {isDeleting ? (
+              <Loader2 className="h-3.5 w-3.5 animate-spin" />
+            ) : (
+              <X className="h-4 w-4 stroke-[2.5]" />
+            )}
+          </button>
+        )}
       </div>
 
       {/* Main Content: Title */}
@@ -133,29 +137,35 @@ export const QuestCard: React.FC<QuestCardProps> = ({
         </a>
       </div>
 
-      {/* Bottom Action: Checkbox Mark as Solved */}
+      {/* Bottom Action: Checkbox Mark as Solved (or ReadOnly label) */}
       <div className="mt-2 flex items-center justify-between border-t-2 border-zinc-800/80 pt-3">
-        <label
-          htmlFor={`solve-${quest.id}`}
-          className="flex items-center gap-2.5 cursor-pointer select-none group/solve"
-        >
-          <Checkbox
-            id={`solve-${quest.id}`}
-            checked={isSolving}
-            disabled={isSolving || isDeleting}
-            onCheckedChange={handleMarkSolved}
-          />
-          <span
-            className={cn(
-              "text-xs font-black tracking-wider uppercase transition-colors",
-              isSolving
-                ? "text-emerald-400"
-                : "text-zinc-300 group-hover/solve:text-white"
-            )}
-          >
-            {isSolving ? "ACCEPTED!" : "MARK AS SOLVED"}
+        {isReadOnly ? (
+          <span className="text-xs font-black tracking-wider uppercase font-mono text-zinc-400">
+            QUEST
           </span>
-        </label>
+        ) : (
+          <label
+            htmlFor={`solve-${quest.id}`}
+            className="flex items-center gap-2.5 cursor-pointer select-none group/solve"
+          >
+            <Checkbox
+              id={`solve-${quest.id}`}
+              checked={isSolving}
+              disabled={isSolving || isDeleting}
+              onCheckedChange={handleMarkSolved}
+            />
+            <span
+              className={cn(
+                "text-xs font-black tracking-wider uppercase transition-colors",
+                isSolving
+                  ? "text-emerald-400"
+                  : "text-zinc-300 group-hover/solve:text-white"
+              )}
+            >
+              {isSolving ? "ACCEPTED!" : "MARK AS SOLVED"}
+            </span>
+          </label>
+        )}
 
         <span suppressHydrationWarning className="text-[10px] font-mono text-zinc-500">
           {new Date(quest.created_at).toLocaleDateString("en-US", {

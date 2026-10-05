@@ -20,6 +20,16 @@ export async function updateUsernameAction(newUsername: string) {
     return { error: "Not authenticated" };
   }
 
+  const { data: currentProfile } = await supabase
+    .from("profiles")
+    .select("username")
+    .eq("id", user.id)
+    .single();
+
+  if (currentProfile?.username?.toLowerCase() === "isthisreal") {
+    return { error: "This CTF account is read-only." };
+  }
+
   const { error } = await supabase
     .from("profiles")
     .update({ username: trimmed })
@@ -44,6 +54,16 @@ export async function updateAvatarAction(avatarUrl: string) {
 
   if (!user) {
     return { error: "Not authenticated" };
+  }
+
+  const { data: currentProfile } = await supabase
+    .from("profiles")
+    .select("username")
+    .eq("id", user.id)
+    .single();
+
+  if (currentProfile?.username?.toLowerCase() === "isthisreal") {
+    return { error: "This CTF account is read-only." };
   }
 
   const { error } = await supabase

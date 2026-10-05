@@ -5,6 +5,17 @@ import { normalizeUrl } from "@/lib/parser/normalizer";
 import { detectPlatformAndExtractTitle } from "@/lib/parser/detector";
 import { revalidatePath } from "next/cache";
 
+// Helper to prevent mutation on the public CTF account
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+async function isAccountReadOnly(supabase: any, userId: string): Promise<boolean> {
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("username")
+    .eq("id", userId)
+    .single();
+  return profile?.username?.toLowerCase() === "isthisreal";
+}
+
 export async function addQuestAction(rawUrl: string) {
   if (!rawUrl || !rawUrl.trim()) {
     return { error: "Problem URL cannot be empty!" };
@@ -17,6 +28,10 @@ export async function addQuestAction(rawUrl: string) {
 
   if (!user) {
     return { error: "Please log in first." };
+  }
+
+  if (await isAccountReadOnly(supabase, user.id)) {
+    return { error: "This CTF account is read-only." };
   }
 
   const normalized = normalizeUrl(rawUrl);
@@ -74,6 +89,10 @@ export async function markQuestSolvedAction(problemId: string) {
     return { error: "Not authenticated" };
   }
 
+  if (await isAccountReadOnly(supabase, user.id)) {
+    return { error: "This CTF account is read-only." };
+  }
+
   const { data, error } = await supabase
     .from("problems")
     .update({
@@ -105,6 +124,10 @@ export async function deleteQuestAction(problemId: string) {
 
   if (!user) {
     return { error: "Not authenticated" };
+  }
+
+  if (await isAccountReadOnly(supabase, user.id)) {
+    return { error: "This CTF account is read-only." };
   }
 
   const { data, error } = await supabase
@@ -139,6 +162,10 @@ export async function reQueueQuestAction(problemId: string) {
 
   if (!user) {
     return { error: "Not authenticated" };
+  }
+
+  if (await isAccountReadOnly(supabase, user.id)) {
+    return { error: "This CTF account is read-only." };
   }
 
   const { data, error } = await supabase
@@ -177,6 +204,10 @@ export async function bulkDeleteQuestsAction(problemIds: string[]) {
 
   if (!user) {
     return { error: "Not authenticated" };
+  }
+
+  if (await isAccountReadOnly(supabase, user.id)) {
+    return { error: "This CTF account is read-only." };
   }
 
   const { data, error } = await supabase

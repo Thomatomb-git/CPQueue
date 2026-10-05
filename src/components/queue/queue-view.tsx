@@ -6,16 +6,19 @@ import { QuestInputBar } from "./quest-input-bar";
 import { QuestFilter, FilterValue } from "./quest-filter";
 import { QuestGrid } from "./quest-grid";
 import { Pagination } from "@/components/ui/pagination";
-import { ALL_PLATFORMS } from "@/lib/parser/constants";
 import { useRouter } from "next/navigation";
 
 export interface QueueViewProps {
   initialQuests: Problem[];
+  isReadOnly?: boolean;
 }
 
 const ITEMS_PER_PAGE = 24; // Per PRD: 20-25 cards per page
 
-export const QueueView: React.FC<QueueViewProps> = ({ initialQuests }) => {
+export const QueueView: React.FC<QueueViewProps> = ({
+  initialQuests,
+  isReadOnly = false,
+}) => {
   const [quests, setQuests] = React.useState<Problem[]>(initialQuests);
   const [selectedFilter, setSelectedFilter] = React.useState<FilterValue>("all");
   const [currentPage, setCurrentPage] = React.useState(1);
@@ -85,13 +88,15 @@ export const QueueView: React.FC<QueueViewProps> = ({ initialQuests }) => {
 
   return (
     <div className="space-y-6">
-      {/* 1. URL Input Bar */}
-      <section className="rounded-2xl border-[3px] border-white bg-surface p-4 sm:p-6 shadow-[5px_5px_0px_0px_#FFFFFF]">
-        <h2 className="mb-3 text-xs font-black uppercase tracking-wider text-zinc-400 font-mono">
-          Problem URL Input
-        </h2>
-        <QuestInputBar onQuestAdded={handleQuestAdded} />
-      </section>
+      {/* 1. URL Input Bar (Hidden in Read-Only Mode) */}
+      {!isReadOnly && (
+        <section className="rounded-2xl border-[3px] border-white bg-surface p-4 sm:p-6 shadow-[5px_5px_0px_0px_#FFFFFF]">
+          <h2 className="mb-3 text-xs font-black uppercase tracking-wider text-zinc-400 font-mono">
+            Problem URL Input
+          </h2>
+          <QuestInputBar onQuestAdded={handleQuestAdded} />
+        </section>
+      )}
 
       {/* 2. Platform Filters */}
       <section className="pt-2">
@@ -125,6 +130,7 @@ export const QueueView: React.FC<QueueViewProps> = ({ initialQuests }) => {
           quests={paginatedQuests}
           onQuestSolved={handleQuestSolved}
           onQuestDeleted={handleQuestDeleted}
+          isReadOnly={isReadOnly}
         />
 
         {/* 4. Retro Pagination */}

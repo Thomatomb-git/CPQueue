@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input";
 
 export interface HistoryTableProps {
   initialQuests: Problem[];
+  isReadOnly?: boolean;
 }
 
 function formatSolvedTime(dateString: string | null): string {
@@ -33,7 +34,10 @@ function formatSolvedTime(dateString: string | null): string {
   }
 }
 
-export const HistoryTable: React.FC<HistoryTableProps> = ({ initialQuests }) => {
+export const HistoryTable: React.FC<HistoryTableProps> = ({
+  initialQuests,
+  isReadOnly = false,
+}) => {
   const [quests, setQuests] = React.useState<Problem[]>(initialQuests);
   const [selectedIds, setSelectedIds] = React.useState<string[]>([]);
   const [searchQuery, setSearchQuery] = React.useState("");
@@ -114,7 +118,7 @@ export const HistoryTable: React.FC<HistoryTableProps> = ({ initialQuests }) => 
           </div>
           <h4 className="text-base font-black text-white">No History Yet</h4>
           <p className="mt-1 text-xs text-zinc-400 max-w-xs">
-            Problems you mark as solved in the active queue will automatically appear in this table.
+            Problems marked as solved in the active queue will appear in this table.
           </p>
         </div>
       ) : (
@@ -122,14 +126,16 @@ export const HistoryTable: React.FC<HistoryTableProps> = ({ initialQuests }) => 
           <table className="w-full text-left text-sm text-white">
             <thead className="border-b-[2.5px] border-white bg-secondary/80 font-mono text-xs uppercase tracking-wider text-zinc-300">
               <tr>
-                <th scope="col" className="w-12 px-4 py-3.5 text-center">
-                  <div className="flex justify-center">
-                    <Checkbox
-                      checked={allFilteredSelected}
-                      onCheckedChange={handleSelectAll}
-                    />
-                  </div>
-                </th>
+                {!isReadOnly && (
+                  <th scope="col" className="w-12 px-4 py-3.5 text-center">
+                    <div className="flex justify-center">
+                      <Checkbox
+                        checked={allFilteredSelected}
+                        onCheckedChange={handleSelectAll}
+                      />
+                    </div>
+                  </th>
+                )}
                 <th scope="col" className="w-32 px-4 py-3.5">
                   Platform
                 </th>
@@ -139,9 +145,11 @@ export const HistoryTable: React.FC<HistoryTableProps> = ({ initialQuests }) => 
                 <th scope="col" className="w-52 px-4 py-3.5 text-right font-mono hidden sm:table-cell">
                   Solved At
                 </th>
-                <th scope="col" className="w-16 px-4 py-3.5 text-center">
-                  Actions
-                </th>
+                {!isReadOnly && (
+                  <th scope="col" className="w-16 px-4 py-3.5 text-center">
+                    Actions
+                  </th>
+                )}
               </tr>
             </thead>
 
@@ -156,15 +164,17 @@ export const HistoryTable: React.FC<HistoryTableProps> = ({ initialQuests }) => 
                       isSelected ? "bg-zinc-800/80" : ""
                     }`}
                   >
-                    {/* Checkbox Col */}
-                    <td className="px-4 py-3 text-center">
-                      <div className="flex justify-center">
-                        <Checkbox
-                          checked={isSelected}
-                          onCheckedChange={(checked) => handleToggleRow(quest.id, checked)}
-                        />
-                      </div>
-                    </td>
+                    {/* Checkbox Col (Hidden in Read-Only) */}
+                    {!isReadOnly && (
+                      <td className="px-4 py-3 text-center">
+                        <div className="flex justify-center">
+                          <Checkbox
+                            checked={isSelected}
+                            onCheckedChange={(checked) => handleToggleRow(quest.id, checked)}
+                          />
+                        </div>
+                      </td>
+                    )}
 
                     {/* Platform Badge Col */}
                     <td className="px-4 py-3 whitespace-nowrap">
@@ -199,16 +209,18 @@ export const HistoryTable: React.FC<HistoryTableProps> = ({ initialQuests }) => 
                       </span>
                     </td>
 
-                    {/* 3-dots Menu Col */}
-                    <td className="px-4 py-3 text-center whitespace-nowrap">
-                      <div className="flex justify-center">
-                        <HistoryRowActions
-                          questId={quest.id}
-                          questTitle={quest.title}
-                          onActionComplete={() => handleRowRemoved(quest.id)}
-                        />
-                      </div>
-                    </td>
+                    {/* Actions Col (Hidden in Read-Only) */}
+                    {!isReadOnly && (
+                      <td className="px-4 py-3 text-center whitespace-nowrap">
+                        <div className="flex justify-center">
+                          <HistoryRowActions
+                            questId={quest.id}
+                            questTitle={quest.title}
+                            onActionComplete={() => handleRowRemoved(quest.id)}
+                          />
+                        </div>
+                      </td>
+                    )}
                   </tr>
                 );
               })}
@@ -217,12 +229,14 @@ export const HistoryTable: React.FC<HistoryTableProps> = ({ initialQuests }) => 
         </div>
       )}
 
-      {/* Floating Bulk Actions Bar */}
-      <HistoryBulkActions
-        selectedIds={selectedIds}
-        onClearSelection={() => setSelectedIds([])}
-        onDeleted={handleBulkRemoved}
-      />
+      {/* Floating Bulk Actions Bar (Hidden in Read-Only) */}
+      {!isReadOnly && (
+        <HistoryBulkActions
+          selectedIds={selectedIds}
+          onClearSelection={() => setSelectedIds([])}
+          onDeleted={handleBulkRemoved}
+        />
+      )}
     </div>
   );
 };

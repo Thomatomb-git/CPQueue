@@ -11,8 +11,19 @@ export default async function HistoryPage() {
   } = await supabase.auth.getUser();
 
   let solvedQuests: Problem[] = [];
+  let isReadOnly = false;
 
   if (user) {
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("username")
+      .eq("id", user.id)
+      .single();
+
+    if (profile?.username?.toLowerCase() === "isthisreal") {
+      isReadOnly = true;
+    }
+
     const { data } = await supabase
       .from("problems")
       .select("*")
@@ -32,11 +43,11 @@ export default async function HistoryPage() {
           Solved <span className="text-[#FACC15]">History</span>
         </h1>
         <p className="text-xs sm:text-sm font-medium text-zinc-400">
-          All problems you have successfully upsolved. You can re-queue them or delete them.
+          All problems you have successfully upsolved.
         </p>
       </div>
 
-      <HistoryTable initialQuests={solvedQuests} />
+      <HistoryTable initialQuests={solvedQuests} isReadOnly={isReadOnly} />
     </div>
   );
 }

@@ -11,8 +11,19 @@ export default async function QueuePage() {
   } = await supabase.auth.getUser();
 
   let initialQuests: Problem[] = [];
+  let isReadOnly = false;
 
   if (user) {
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("username")
+      .eq("id", user.id)
+      .single();
+
+    if (profile?.username?.toLowerCase() === "isthisreal") {
+      isReadOnly = true;
+    }
+
     // Fetch active problem queue in LIFO order (created_at DESC)
     const { data } = await supabase
       .from("problems")
@@ -26,5 +37,5 @@ export default async function QueuePage() {
     }
   }
 
-  return <QueueView initialQuests={initialQuests} />;
+  return <QueueView initialQuests={initialQuests} isReadOnly={isReadOnly} />;
 }

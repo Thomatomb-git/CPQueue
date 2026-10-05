@@ -9,12 +9,14 @@ export interface QuestGridProps {
   quests: Problem[];
   onQuestSolved?: (id: string) => void;
   onQuestDeleted?: (id: string) => void;
+  isReadOnly?: boolean;
 }
 
 export const QuestGrid: React.FC<QuestGridProps> = ({
   quests,
   onQuestSolved,
   onQuestDeleted,
+  isReadOnly = false,
 }) => {
   if (quests.length === 0) {
     return (
@@ -38,6 +40,7 @@ export const QuestGrid: React.FC<QuestGridProps> = ({
           quest={quest}
           onSolved={onQuestSolved}
           onDeleted={onQuestDeleted}
+          isReadOnly={isReadOnly}
         />
       ))}
     </div>
