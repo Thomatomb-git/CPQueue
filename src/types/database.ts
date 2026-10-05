@@ -84,7 +84,14 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
-      [_ in never]: never;
+      is_username_available: {
+        Args: { p_username: string };
+        Returns: boolean;
+      };
+      get_email_by_username: {
+        Args: { p_username: string };
+        Returns: string | null;
+      };
     };
     Enums: {
       cp_platform: CpPlatform;

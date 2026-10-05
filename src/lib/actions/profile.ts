@@ -2,11 +2,13 @@
 
 import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
+import { validateUsername } from "@/lib/utils/username";
 
 export async function updateUsernameAction(newUsername: string) {
   const trimmed = newUsername?.trim();
-  if (!trimmed || trimmed.length < 3) {
-    return { error: "Username must be at least 3 characters!" };
+  const usernameError = validateUsername(trimmed);
+  if (usernameError) {
+    return { error: usernameError };
   }
 
   const supabase = await createClient();

@@ -71,7 +71,9 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({
           disabled={loading}
           required
           minLength={3}
-          maxLength={50}
+          maxLength={30}
+          pattern="[A-Za-z0-9_]+"
+          title="Letters, numbers, and underscores only"
           className="font-mono text-sm font-bold"
         />
       </div>

@@ -8,20 +8,26 @@ import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { UserPlus, Loader2 } from "lucide-react";
 import { useToast } from "@/components/ui/toast";
+import { USERNAME_MIN, USERNAME_MAX } from "@/lib/utils/username";
 
 export default function RegisterPage() {
   const [loading, setLoading] = React.useState(false);
-  const { error } = useToast();
+  const { error, success } = useToast();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
 
-    const formData = new FormData(e.currentTarget);
+    const form = e.currentTarget;
+    const formData = new FormData(form);
     try {
       const res = await registerAction(formData);
       if (res?.error) {
         error(res.error, "Registration Failed");
+        setLoading(false);
+      } else if (res?.needsConfirmation) {
+        success(res.message, "Almost There!");
+        form.reset();
         setLoading(false);
       }
     } catch {
@@ -50,10 +56,17 @@ export default function RegisterPage() {
             name="username"
             placeholder="tourist_fan"
             required
-            minLength={3}
-            maxLength={50}
+            minLength={USERNAME_MIN}
+            maxLength={USERNAME_MAX}
+            pattern="[A-Za-z0-9_]+"
+            title="Letters, numbers, and underscores only"
+            autoCapitalize="none"
+            spellCheck={false}
             disabled={loading}
           />
+          <span className="text-[11px] font-mono text-zinc-500 mt-1 block">
+            {USERNAME_MIN}-{USERNAME_MAX} chars: letters, numbers, underscore.
+          </span>
         </div>
 
         <div>

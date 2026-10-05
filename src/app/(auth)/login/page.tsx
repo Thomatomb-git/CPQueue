@@ -44,14 +44,16 @@ export default function LoginPage() {
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label className="block text-xs font-black uppercase tracking-wider text-zinc-300 font-mono mb-1.5">
-            Email
+            Username or Email
           </label>
           <Input
-            type="email"
-            name="email"
-            placeholder="name@domain.com"
+            type="text"
+            name="identifier"
+            placeholder="tourist_fan or name@domain.com"
             required
-            autoComplete="email"
+            autoComplete="username"
+            autoCapitalize="none"
+            spellCheck={false}
             disabled={loading}
           />
         </div>
