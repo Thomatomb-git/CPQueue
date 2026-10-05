@@ -80,5 +80,3 @@ CPQueue combines high-contrast pitch-dark ergonomics with playful retro comic ae
 Crafted with ⚔️ by **[thomatomb-git](https://github.com/thomatomb-git)**
 
 </div>
-
-Maybe you can open gist in github
