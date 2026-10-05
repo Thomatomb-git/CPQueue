@@ -12,6 +12,7 @@ export interface Profile {
   username: string;
   avatar_url: string | null;
   created_at: string;
+  is_decoy: boolean;
 }
 
 export interface Problem {
@@ -36,12 +37,14 @@ export type Database = {
           username: string;
           avatar_url?: string | null;
           created_at?: string;
+          is_decoy?: boolean;
         };
         Update: {
           id?: string;
           username?: string;
           avatar_url?: string | null;
           created_at?: string;
+          is_decoy?: boolean;
         };
         Relationships: [];
       };

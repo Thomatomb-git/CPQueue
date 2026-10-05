@@ -28,9 +28,15 @@ export default function AuthLayout({
       <div className="w-full max-w-md">{children}</div>
 
       {/* Footer */}
-      <div className="mt-8 text-center text-xs font-mono text-zinc-500">
-        Competitive Programming Upsolving Made Tactile & Fun.
-      </div>
+      <footer className="mt-8 flex flex-col items-center gap-1 text-center text-xs font-mono text-zinc-500">
+        <p>Competitive Programming Upsolving Made Tactile & Fun.</p>
+        <p className="text-zinc-400">
+          Made by{" "}
+          <span className="font-bold text-zinc-200 tracking-wide">
+            thomatomb-git
+          </span>
+        </p>
+      </footer>
     </div>
   );
 }
